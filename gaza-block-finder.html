@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0b1220">
   <title>Gaza Block Finder</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <script src="vendor/leaflet/leaflet.js"></script>
   <style>
     :root{
       --bg:#08111f;--panel:rgba(10,20,35,.94);--panel-soft:rgba(15,28,47,.92);
@@ -204,6 +204,14 @@ document.getElementById('mobileToggle').onclick=()=>document.getElementById('sid
 map.on('mousemove',e=>{if(window.innerWidth>820)document.getElementById('visibleStatus').textContent=`${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}`});
 document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==input){e.preventDefault();input.focus()}});
 updateLabels();
+</script>
+<script>
+  // Cache the app shell and viewed tiles so the map works without a network.
+  if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function () {});
+    });
+  }
 </script>
 </body>
 </html>

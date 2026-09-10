@@ -1294,5 +1294,13 @@ window.addEventListener('hashchange',fromHash);
 }catch(err){ var b=document.getElementById('body'); if(b) b.innerHTML='<div class="empty"><b>Map failed to start</b>'+String(err&&err.message||err)+'</div>'; if(window.console) console.error(err); }
 })();
 </script>
+<script>
+  // Cache the app shell and viewed tiles so the map works without a network.
+  if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function () {});
+    });
+  }
+</script>
 </body>
 </html>
