@@ -7,6 +7,7 @@
     <title>Gaza Block Atlas</title>
     <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
     <script src="vendor/leaflet/leaflet.js"></script>
+    <script src="data/base-map.js"></script>
     <style>
         :root {
             --panel-bg: rgba(255, 255, 255, 0.94);
@@ -180,6 +181,9 @@
         });
 
         satellite.addTo(map);
+
+        // Tile-free base: works with no network at all.
+        var vectorBase = createBaseMap(map, { theme: 'dark', zIndex: 220 });
 
         // Panes keep the draw order fixed: mask, blocks, then the highlighted block.
         map.createPane('maskPane').style.zIndex = 350;
@@ -484,7 +488,7 @@
 
         // --- basemap switch, scale, coordinates ----------------------------------
         L.control.layers(
-            { 'Satellite': satellite, 'Street map': streets },
+            { 'Satellite': satellite, 'Street map': streets, 'Offline vector': vectorBase },
             { 'Blocks': blocksLayer, 'Dim surroundings': maskLayer, 'Block numbers': labelLayer },
             { position: 'topright', collapsed: false }
         ).addTo(map);

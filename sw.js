@@ -3,7 +3,7 @@
    open with no network. Map tiles are cached as they are viewed — panning an
    area once while online makes it available offline afterwards. */
 
-var SHELL_CACHE = 'blocks-shell-v1';
+var SHELL_CACHE = 'blocks-shell-v2';
 var TILE_CACHE = 'blocks-tiles-v1';
 var TILE_LIMIT = 1500;
 
@@ -12,6 +12,7 @@ var SHELL = [
     './index.html',
     './gaza-block-finder.html',
     './gaza-block-guide.html',
+    './data/base-map.js',
     './vendor/leaflet/leaflet.js',
     './vendor/leaflet/leaflet.css',
     './vendor/leaflet/images/marker-icon.png',

@@ -19,8 +19,17 @@ page, so all three maps open and draw with no network at all — including strai
 from disk over `file://`. Only the basemap tiles need the internet; without them the
 blocks render on a plain background.
 
-On the published site a service worker (`sw.js`) precaches the pages, Leaflet and the
-geometry, and caches basemap tiles as they are viewed: pan an area once while online
-and it stays available offline. Tiles are capped at 1500 entries, oldest evicted first.
+`data/base-map.js` is a tile-free vector base map — the Gaza Strip land outline, 1,093
+road segments and 68 place names in Arabic and English, extracted from OpenStreetMap
+and simplified to 89 KB. Pick **Offline vector** (Atlas, Finder) or **Offline base**
+(Guide) and the map draws roads and place names with no tiles at all. Place labels
+follow the interface language in the Guide, and collide-avoid as you zoom.
+
+On the published site a service worker (`sw.js`) precaches the pages, Leaflet, the
+geometry and the vector base, and caches basemap tiles as they are viewed: pan an area
+once while online and it stays available offline. Tiles are capped at 1500 entries,
+oldest evicted first.
+
+Base map data © OpenStreetMap contributors, ODbL.
 
 Live: https://abdulwahed-sweden.github.io/offline/

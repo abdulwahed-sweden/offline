@@ -7,6 +7,7 @@
   <title>Gaza Block Finder</title>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <script src="vendor/leaflet/leaflet.js"></script>
+  <script src="data/base-map.js"></script>
   <style>
     :root{
       --bg:#08111f;--panel:rgba(10,20,35,.94);--panel-soft:rgba(15,28,47,.92);
@@ -76,6 +77,7 @@
       <label class="layer-choice"><input type="radio" name="base" value="street" checked> Street</label>
       <label class="layer-choice"><input type="radio" name="base" value="light"> Light</label>
       <label class="layer-choice"><input type="radio" name="base" value="dark"> Dark</label>
+      <label class="layer-choice"><input type="radio" name="base" value="vector"> Offline vector</label>
     </div></div>
     <button id="locateBtn" class="tool" title="My location">◎</button><button id="homeBtn" class="tool" title="Fit all blocks">⌂</button><button id="labelsBtn" class="tool" title="Toggle labels">#</button>
   </div>
@@ -96,6 +98,7 @@ const baseLayers={
   light:L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap & CARTO'}),
   dark:L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap & CARTO'})
 };
+baseLayers.vector=createBaseMap(map,{theme:'dark',zIndex:220});
 let currentBase=baseLayers.street.addTo(map);
 
 const defaultStyle={color:'#2878b8',weight:1.25,opacity:.88,fillColor:'#4ba3d3',fillOpacity:.08};
@@ -199,7 +202,7 @@ map.on('locationfound',e=>{if(locationMarker)map.removeLayer(locationMarker);if(
 map.on('locationerror',()=>document.getElementById('visibleStatus').textContent='Location unavailable');
 
 const layerMenu=document.getElementById('layerMenu');document.getElementById('layersBtn').onclick=()=>layerMenu.classList.toggle('show');
-document.querySelectorAll('input[name="base"]').forEach(r=>r.onchange=()=>{map.removeLayer(currentBase);currentBase=baseLayers[r.value].addTo(map);currentBase.bringToBack();layerMenu.classList.remove('show')});
+document.querySelectorAll('input[name="base"]').forEach(r=>r.onchange=()=>{map.removeLayer(currentBase);currentBase=baseLayers[r.value].addTo(map);if(currentBase.bringToBack)currentBase.bringToBack();layerMenu.classList.remove('show')});
 document.getElementById('mobileToggle').onclick=()=>document.getElementById('sidePanel').classList.toggle('open');
 map.on('mousemove',e=>{if(window.innerWidth>820)document.getElementById('visibleStatus').textContent=`${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}`});
 document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==input){e.preventDefault();input.focus()}});
